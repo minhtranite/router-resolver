@@ -1,0 +1,49 @@
+@import "variables";
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin spinner() {
+  width: 48px;
+  height: 48px;
+  border: 1px solid lighten($primary, 40%);
+  border-left-color: darken($primary, 10%);
+  border-radius: 50%;
+  animation: spinner 700ms infinite linear;
+}
+
+@mixin throbber() {
+  animation: throbber 1500ms 300ms infinite ease-out;
+  background: lighten($primary, 40%);
+  display: inline-block;
+  position: relative;
+  text-indent: -9999px;
+  width: 0.9em;
+  height: 1em;
+  margin: 0 1.6em;
+  &:before, &:after {
+    background: lighten($primary, 40%);
+    content: '\x200B';
+    display: inline-block;
+    width: 0.9em;
+    height: 1em;
+    position: absolute;
+    top: 0;
+  }
+  &:before {
+    animation: throbber 1500ms 150ms infinite ease-out;
+    left: -1.6em;
+  }
+  &:after {
+    animation: throbber 1500ms 450ms infinite ease-out;
+    right: -1.6em;
+  }
+}
