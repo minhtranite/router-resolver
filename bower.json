@@ -1,6 +1,6 @@
 {
   "name": "router-resolver",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React router resolver.",
   "main": "dist/router-resolver.js",
   "keywords": [
