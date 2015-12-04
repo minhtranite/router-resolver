@@ -1,17 +1,19 @@
 import React from 'react';
 import RouterResolverContainer from './RouterResolverContainer';
 
+const clone = (a) => {
+  return JSON.parse(JSON.stringify(a));
+};
+
 const createElement = (Component, props) => {
-  // todo: Other way to pass resolving to Router component.
-  let resolving = props.params.resolving;
-  let params = Object.assign({}, props.params);
-  delete params.resolving;
+  let params = clone(props.params);
+  let resolving = params.resolving;
+  delete props.params.resolving;
   return Component.resolve ? (
     <RouterResolverContainer Component={Component}
       routerProps={props}
-      params={params}
       resolving={resolving}/>
-  ) : <Component {...props} params={params} resolving={resolving}/>;
+  ) : <Component {...props} resolving={resolving}/>;
 };
 
 export default createElement;
