@@ -9,7 +9,8 @@ const lookupResponseForComponent = (Component, componentsResponses) => {
 class RouterResolverContainer extends React.Component {
   static propTypes = {
     Component: React.PropTypes.func.isRequired,
-    routerProps: React.PropTypes.object.isRequired
+    routerProps: React.PropTypes.object.isRequired,
+    params: React.PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -17,10 +18,12 @@ class RouterResolverContainer extends React.Component {
   };
 
   render() {
-    const { Component, routerProps } = this.props;
+    const { Component, routerProps, params } = this.props;
     const { componentsResponses} = this.context.resolver;
     const response = lookupResponseForComponent(Component, componentsResponses);
-    return response ? <Component {...routerProps} response={response}/> : null;
+    return response
+      ? <Component {...routerProps} params={params} response={response}/>
+      : null;
   }
 }
 

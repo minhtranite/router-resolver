@@ -7,13 +7,14 @@ const clone = (a) => {
 
 const createElement = (Component, props) => {
   let params = clone(props.params);
-  let resolving = params.resolving;
-  delete props.params.resolving;
+  delete params.resolving;
+  let resolving = props.params.resolving;
   return Component.resolve ? (
     <RouterResolverContainer Component={Component}
       routerProps={props}
+      params={params}
       resolving={resolving}/>
-  ) : <Component {...props} resolving={resolving}/>;
+  ) : <Component {...props} params={params} resolving={resolving}/>;
 };
 
 export default createElement;

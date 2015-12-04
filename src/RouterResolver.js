@@ -85,6 +85,10 @@ const mergeComponentsResponses = (current, changes) => {
   return current;
 };
 
+const clone = (a) => {
+  return JSON.parse(JSON.stringify(a));
+};
+
 class RouterResolver extends React.Component {
   static propTypes = {
     components: React.PropTypes.array.isRequired,
@@ -189,9 +193,11 @@ class RouterResolver extends React.Component {
     let props = resolving || resolveError ? prevProps : this.props;
     let params = this.props.params || {};
     // todo: Other way to pass resolving to Router component.
-    params.resolving = this.state.resolving;
+    let paramsClone = clone(params);
+    paramsClone.resolving = this.state.resolving;
     return (
-      <RoutingContext {...props} params={params} createElement={createElement}/>
+      <RoutingContext {...props} params={paramsClone}
+        createElement={createElement}/>
     );
   }
 }
