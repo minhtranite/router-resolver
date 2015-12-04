@@ -2,6 +2,16 @@ import React from 'react';
 import RoutingContext from 'react-router/lib/RoutingContext';
 import createElement from './createElement';
 
+const getLocationPath = (l) => {
+  return l.pathname + l.search + l.hash;
+};
+
+const isLocationChange = (l1, l2) => {
+  let p1 = getLocationPath(l1);
+  let p2 = getLocationPath(l2);
+  return p1 !== p2;
+};
+
 const filterAndFlattenComponents = (components) => {
   let flattened = [];
   const iterator = (component) => {
@@ -56,6 +66,25 @@ const last = (arr) => {
   return arr[arr.length - 1];
 };
 
+const mergeComponentsResponses = (current, changes) => {
+  current.components = current.components || [];
+  current.responses = current.responses || [];
+  changes.components = changes.components || [];
+  changes.responses = changes.responses || [];
+
+  for (var i = 0; i < changes.components.length; i++) {
+    let component = changes.components[i];
+    let position = current.components.indexOf(component);
+    if (position === -1) {
+      current.components.push(changes.components[i]);
+      current.responses.push(changes.responses[i]);
+    } else {
+      current.responses[position] = changes.responses[i];
+    }
+  }
+  return current;
+};
+
 class RouterResolver extends React.Component {
   static propTypes = {
     components: React.PropTypes.array.isRequired,
@@ -88,7 +117,6 @@ class RouterResolver extends React.Component {
   getChildContext() {
     return {
       resolver: {
-        resolving: this.state.resolving,
         componentsResponses: this.state.componentsResponses
       }
     };
@@ -100,7 +128,7 @@ class RouterResolver extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location === this.props.location) {
+    if (!isLocationChange(nextProps.location, this.props.location)) {
       return;
     }
 
@@ -128,15 +156,16 @@ class RouterResolver extends React.Component {
       prevProps: this.props
     });
 
-    let componentsResponses = {};
+    let componentsResponses = this.state.componentsResponses || {};
     let resolveComponents = filterAndFlattenComponents(components);
 
     let promises = resolveComponents.map(resolveComponent => resolveComponent.resolve(params));
     Promise.all(promises).then(responses => {
-      componentsResponses = {
+      let changes = {
         components: resolveComponents,
         responses: responses
       };
+      componentsResponses = mergeComponentsResponses(componentsResponses, changes);
       this.setState({
         resolving: false,
         resolveError: false,

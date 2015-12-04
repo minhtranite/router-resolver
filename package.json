@@ -59,6 +59,7 @@
     "postcss-loader": "^0.8.0",
     "preprocess": "^3.0.2",
     "react-dom": "^0.14.3",
+    "react-modal-bootstrap": "^0.5.1",
     "react-progress-bar-plus": "^0.2.2",
     "react-router": "^1.0.0",
     "react-transform-hmr": "^1.0.1",

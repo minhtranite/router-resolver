@@ -6,6 +6,8 @@ var cssnano = require('cssnano');
 var webpackStatsHelper = require('./webpack-stats-helper');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var publicPath = '/' + (process.env.NODE_ENV === 'production' ? pkg.name + '/' : '');
+
 var scssIncludePaths = [
   path.join(__dirname, 'app/assets/bower_components'),
   path.join(__dirname, 'node_modules')
@@ -26,7 +28,6 @@ var autoprefixerOptions = {
 };
 
 var alias = {
-  app: path.join(__dirname, 'app'),
   actions: path.join(__dirname, 'app/actions'),
   assets: path.join(__dirname, 'app/assets'),
   components: path.join(__dirname, 'app/components'),
@@ -47,9 +48,10 @@ module.exports = {
     hashDigestLength: 32,
     filename: '[hash].js',
     chunkFilename: '[chunkhash].js',
-    publicPath: ''
+    publicPath: publicPath
   },
   resolve: {
+    root: path.join(__dirname, 'app'),
     extensions: ['', '.jsx', '.js'],
     alias: alias
   },

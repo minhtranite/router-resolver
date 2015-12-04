@@ -25,6 +25,7 @@ class Header extends React.Component {
                 <li><Link to='/ex-1'>Example 1</Link></li>
                 <li><Link to='/ex-2'>Example 2</Link></li>
                 <li><Link to='/ex-3'>Example 3 (Error)</Link></li>
+                <li><Link to='/ex-4'>Example 4 (Nested)</Link></li>
               </ul>
             </div>
           </div>

@@ -22,7 +22,8 @@ const routes = {
   childRoutes: [
     require('./routes/Example1Route'),
     require('./routes/Example2Route'),
-    require('./routes/Example3Route')
+    require('./routes/Example3Route'),
+    require('./routes/Example4Route')
   ]
 };
 

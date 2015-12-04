@@ -8,10 +8,17 @@
     <meta name="viewport" content="width=device-width">
 
     <!-- @if NODE_ENV='production' -->
-    <link rel="stylesheet" type="text/css" href="app.css">
+    <link rel="stylesheet"
+      type="text/css"
+      href="/<!-- @echo npm_package_name -->/app.css">
     <!-- @endif -->
 
-    <script src="app.js"></script>
+    <!-- @if NODE_ENV!='production' -->
+    <script src="/app.js"></script>
+    <!-- @endif -->
+    <!-- @if NODE_ENV='production' -->
+    <script src="/<!-- @echo npm_package_name -->/app.js"></script>
+    <!-- @endif -->
   </head>
 
   <body>

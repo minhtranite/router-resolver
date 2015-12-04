@@ -3,6 +3,8 @@ var webpack = require('webpack');
 var path = require('path');
 var autoprefixer = require('autoprefixer');
 
+var publicPath = '/' + (process.env.NODE_ENV === 'production' ? pkg.name + '/' : '');
+
 var scssIncludePaths = [
   path.join(__dirname, 'app/assets/bower_components'),
   path.join(__dirname, 'node_modules')
@@ -23,7 +25,6 @@ var autoprefixerOptions = {
 };
 
 var alias = {
-  app: path.join(__dirname, 'app'),
   actions: path.join(__dirname, 'app/actions'),
   assets: path.join(__dirname, 'app/assets'),
   components: path.join(__dirname, 'app/components'),
@@ -43,9 +44,10 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
-    publicPath: ''
+    publicPath: publicPath
   },
   resolve: {
+    root: path.join(__dirname, 'app'),
     extensions: ['', '.jsx', '.js'],
     alias: alias
   },
