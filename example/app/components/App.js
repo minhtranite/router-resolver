@@ -5,19 +5,15 @@ import ReactProgressBar from 'react-progress-bar-plus';
 
 class App extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node,
-    resolving: React.PropTypes.bool
+    children: React.PropTypes.node
   };
 
-  static defaultProps = {
-    resolving: false
-  };
-
-  static childContextTypes = {
-    resolver: React.PropTypes.object.isRequired
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   };
 
   render() {
+    let {router} = this.context;
     return (
       <div className='layout-page'>
         <Header/>
@@ -27,7 +23,7 @@ class App extends React.Component {
           </div>
         </main>
         <Footer/>
-        <ReactProgressBar percent={this.props.resolving ? 0 : 100}
+        <ReactProgressBar percent={router.resolving ? 0 : 100}
           autoIncrement={true}/>
       </div>
     );
