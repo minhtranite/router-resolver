@@ -33,16 +33,20 @@ const history = useBasename(createHistory)({
 });
 history.__v2_compatible__ = true;
 
+const render = (props) => {
+  return <RouterResolver {...props}/>;
+};
+
 const renderInitial = () => {
   return <Spinner isLoading={true} fullScreen={true}/>;
 };
 
 const run = () => {
   ReactDOM.render(
-    <Router RoutingContext={RouterResolver}
-      routes={routes}
+    <Router routes={routes}
       history={history}
-      renderInitial={renderInitial}/>,
+      renderInitial={renderInitial}
+      render={render}/>,
     document.getElementById('app')
   );
 };

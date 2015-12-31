@@ -1,5 +1,5 @@
 import React from 'react';
-import RoutingContext from 'react-router/lib/RoutingContext';
+import {RouterContext} from 'react-router';
 import createElement from './createElement';
 
 const getLocationPath = (l) => {
@@ -196,7 +196,7 @@ class RouterResolver extends React.Component {
     let paramsClone = clone(params);
     paramsClone.resolving = this.state.resolving;
     return (
-      <RoutingContext {...props} params={paramsClone}
+      <RouterContext {...props} params={paramsClone}
         createElement={createElement}/>
     );
   }
