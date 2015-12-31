@@ -14,7 +14,7 @@ var webpackStatsHelper = require('./example/webpack-stats-helper');
 var path = require('path');
 var preProcess = require('gulp-preprocess');
 var frep = require('gulp-frep');
-var minifyHtml = require('gulp-minify-html');
+var htmlmin = require('gulp-htmlmin');
 var webpackStream = require('webpack-stream');
 var webpackConfig = require('./webpack.config');
 var exampleWebpackConfig = require('./example/webpack.prod.config');
@@ -106,7 +106,7 @@ gulp.task('example:html', function () {
       }
     }))
     .pipe(frep(patterns))
-    .pipe(minifyHtml())
+    .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(gulp.dest('example/dist'));
 });
 

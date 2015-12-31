@@ -9,7 +9,7 @@ import App from 'components/App.js';
 import pkg from '../../package.json';
 import Spinner from 'components/common/Spinner';
 
-import 'assets/bower_components/bootstrap-customize/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import 'react-progress-bar-plus/lib/progress-bar.css';
 import 'assets/styles/app.scss';
 
@@ -31,6 +31,7 @@ const DEV = process && process.env && process.env.NODE_ENV === 'development';
 const history = useBasename(createHistory)({
   basename: '/' + (DEV ? '' : pkg.name)
 });
+history.__v2_compatible__ = true;
 
 const renderInitial = () => {
   return <Spinner isLoading={true} fullScreen={true}/>;
