@@ -3,8 +3,8 @@ import 'babel-core/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createHistory, useBasename} from 'history';
-import Router from 'react-router';
-import RouterResolver from 'router-resolver';
+import {Router, RouterContext} from 'react-router';
+import {RouterResolver, RouterResolverContainer} from 'router-resolver';
 import App from 'components/App.js';
 import pkg from '../../package.json';
 import Spinner from 'components/common/Spinner';
@@ -33,12 +33,12 @@ const history = useBasename(createHistory)({
 });
 history.__v2_compatible__ = true;
 
-const render = (props) => {
-  return <RouterResolver {...props}/>;
-};
-
 const renderInitial = () => {
   return <Spinner isLoading={true} fullScreen={true}/>;
+};
+
+const createElement = (Component, props) => {
+  return <RouterResolverContainer Component={Component} routerProps={props}/>;
 };
 
 const run = () => {
@@ -46,7 +46,12 @@ const run = () => {
     <Router routes={routes}
       history={history}
       renderInitial={renderInitial}
-      render={render}/>,
+      render={props => (
+        <RouterResolver {...props} render={props2 => (
+          <RouterContext {...props2}/>
+        )}/>
+      )}
+      createElement={createElement}/>,
     document.getElementById('app')
   );
 };

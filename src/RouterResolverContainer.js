@@ -20,9 +20,10 @@ class RouterResolverContainer extends React.Component {
     const {Component, routerProps} = this.props;
     const {componentsResponses} = this.context.resolver;
     const response = lookupResponseForComponent(Component, componentsResponses);
-    return response
-      ? <Component {...routerProps} response={response}/>
-      : null;
+    if (!!Component.resolve && response === undefined) {
+      return null;
+    }
+    return <Component {...routerProps} response={response}/>;
   }
 }
 

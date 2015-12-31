@@ -91,12 +91,16 @@ class RouterResolver extends React.Component {
     params: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
     renderInitial: React.PropTypes.func,
+    render: React.PropTypes.func,
     onError: React.PropTypes.func
   };
 
   static defaultProps = {
     renderInitial: () => {
       return null;
+    },
+    render: (props) => {
+      return <RouterContext {...props} createElement={createElement}/>;
     },
     onError: (error) => {
       throw error;
@@ -187,11 +191,8 @@ class RouterResolver extends React.Component {
       return this.props.renderInitial();
     }
     let props = resolving || resolveError ? prevProps : this.props;
-    let {router} = props;
-    router.resolving = resolving;
-    return (
-      <RouterContext {...props} createElement={createElement}/>
-    );
+    props.router.resolving = resolving;
+    return this.props.render(props);
   }
 }
 
