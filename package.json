@@ -1,6 +1,6 @@
 {
   "name": "router-resolver",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "React router resolver",
   "main": "lib/index.js",
   "scripts": {

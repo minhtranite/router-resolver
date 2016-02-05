@@ -101,9 +101,6 @@ class RouterResolver extends React.Component {
   static defaultProps = {
     renderInitial: () => {
       return null;
-    },
-    onError: (error) => {
-      throw error;
     }
   };
 
@@ -181,7 +178,9 @@ class RouterResolver extends React.Component {
         resolving: false,
         resolveError: true
       });
-      this.props.onError(error);
+      if (this.props.onError) {
+        this.props.onError(error);
+      }
     });
   }
 
