@@ -2,8 +2,8 @@ import 'babel-core/polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createHistory, useBasename} from 'history';
-import {Router, RouterContext} from 'react-router';
+import {createHistory} from 'history';
+import {Router, useRouterHistory, RouterContext} from 'react-router';
 import {RouterResolver, RouterResolverContainer} from 'router-resolver';
 import App from 'components/App.js';
 import pkg from '../../package.json';
@@ -28,10 +28,9 @@ const routes = {
 };
 
 const DEV = process && process.env && process.env.NODE_ENV === 'development';
-const history = useBasename(createHistory)({
+const history = useRouterHistory(createHistory)({
   basename: '/' + (DEV ? '' : pkg.name)
 });
-history.__v2_compatible__ = true;
 
 const renderInitial = () => {
   return <Spinner isLoading={true} fullScreen={true}/>;
