@@ -3,8 +3,8 @@ import 'babel-core/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createHistory} from 'history';
-import {Router, useRouterHistory, RouterContext} from 'react-router';
-import {RouterResolver, RouterResolverContainer} from 'router-resolver';
+import {Router, useRouterHistory} from 'react-router';
+import {RouterResolver} from 'router-resolver';
 import App from 'components/App.js';
 import pkg from '../../package.json';
 import Spinner from 'components/common/Spinner';
@@ -36,21 +36,17 @@ const renderInitial = () => {
   return <Spinner isLoading={true} fullScreen={true}/>;
 };
 
-const createElement = (Component, props) => {
-  return <RouterResolverContainer Component={Component} routerProps={props}/>;
+const onError = (error) => {
+  console.log('Error: ', error);
 };
 
 const run = () => {
   ReactDOM.render(
     <Router routes={routes}
       history={history}
-      renderInitial={renderInitial}
       render={props => (
-        <RouterResolver {...props} render={props2 => (
-          <RouterContext {...props2}/>
-        )}/>
-      )}
-      createElement={createElement}/>,
+        <RouterResolver {...props} renderInitial={renderInitial} onError={onError}/>
+      )}/>,
     document.getElementById('app')
   );
 };
