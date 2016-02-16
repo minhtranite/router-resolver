@@ -1,6 +1,6 @@
 # Router Resolver
 
-A custom `RoutingContext` for `React Router` to resolve data (data loading) like `async-props` use `Promise`.
+A custom `RouterContext` for `React Router` to resolve data (data loading) use `Promise`.
  
 ## Installation
 
@@ -20,9 +20,7 @@ bower install --save router-resolver
 ```js
 // app.js
 //...
-import Router from 'react-router';
-import RouterResolver from 'router-resolver';
-import {createHistory} from 'history';
+import {RouterResolver} from 'router-resolver';
 //...
 const routes = {
   path: '/',
@@ -37,17 +35,20 @@ const routes = {
   ]
 };
 
-const history = createHistory();
-
 const renderInitial = () => {
   return <div>Loading...</div>;
 };
 
+const onError = (error) => {
+  console.log('Error: ', error);
+};
+
 ReactDOM.render(
-  <Router RoutingContext={RouterResolver}
-    routes={routes}
+  <Router routes={routes}
     history={history}
-    renderInitial={renderInitial}/>,
+    render={props => (
+      <RouterResolver {...props} renderInitial={renderInitial} onError={onError}/>
+    )}/>,
   document.getElementById('app')
 );
 ```
@@ -86,7 +87,7 @@ export default PageExample1;
 
 - renderInitial (https://github.com/vn38minhtran/router-resolver/blob/master/example/app/app.js#L35)
 - Multiple promise (https://github.com/vn38minhtran/router-resolver/blob/master/example/app/components/pages/PageExample3.js#L5)
-- Show `ProgressBar` when resolving (https://github.com/vn38minhtran/router-resolver/blob/master/example/app/components/App.js#L30)
+- Show `ProgressBar` when resolving (https://github.com/vn38minhtran/router-resolver/blob/master/example/app/components/App.js#L26)
 
 ## Demo
 
