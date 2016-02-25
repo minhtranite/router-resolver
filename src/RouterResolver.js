@@ -1,5 +1,5 @@
 import React from 'react';
-import RoutingContext from 'react-router/lib/RoutingContext';
+import {RouterContext} from 'react-router';
 import createElement from './createElement';
 
 const getLocationPath = (l) => {
@@ -85,22 +85,25 @@ const mergeComponentsResponses = (current, changes) => {
   return current;
 };
 
-const clone = (a) => {
-  return JSON.parse(JSON.stringify(a));
-};
-
 class RouterResolver extends React.Component {
   static propTypes = {
     components: React.PropTypes.array.isRequired,
     params: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
     renderInitial: React.PropTypes.func,
+    render: React.PropTypes.func,
     onError: React.PropTypes.func
   };
 
   static defaultProps = {
     renderInitial: () => {
       return null;
+    },
+    render: (props) => {
+      return <RouterContext {...props} createElement={createElement}/>;
+    },
+    onError: (error) => {
+      throw error;
     }
   };
 
@@ -178,9 +181,7 @@ class RouterResolver extends React.Component {
         resolving: false,
         resolveError: true
       });
-      if (this.props.onError) {
-        this.props.onError(error);
-      }
+      this.props.onError(error);
     });
   }
 
@@ -190,14 +191,8 @@ class RouterResolver extends React.Component {
       return this.props.renderInitial();
     }
     let props = resolving || resolveError ? prevProps : this.props;
-    let params = this.props.params || {};
-    // todo: Other way to pass resolving to Router component.
-    let paramsClone = clone(params);
-    paramsClone.resolving = this.state.resolving;
-    return (
-      <RoutingContext {...props} params={paramsClone}
-        createElement={createElement}/>
-    );
+    props.router.resolving = resolving;
+    return this.props.render(props);
   }
 }
 

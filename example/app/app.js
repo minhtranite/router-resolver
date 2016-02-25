@@ -2,14 +2,14 @@ import 'babel-core/polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createHistory, useBasename} from 'history';
-import Router from 'react-router';
-import RouterResolver from 'router-resolver';
+import {createHistory} from 'history';
+import {Router, useRouterHistory} from 'react-router';
+import {RouterResolver} from 'router-resolver';
 import App from 'components/App.js';
 import pkg from '../../package.json';
 import Spinner from 'components/common/Spinner';
 
-import 'assets/bower_components/bootstrap-customize/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import 'react-progress-bar-plus/lib/progress-bar.css';
 import 'assets/styles/app.scss';
 
@@ -28,7 +28,7 @@ const routes = {
 };
 
 const DEV = process && process.env && process.env.NODE_ENV === 'development';
-const history = useBasename(createHistory)({
+const history = useRouterHistory(createHistory)({
   basename: '/' + (DEV ? '' : pkg.name)
 });
 
@@ -36,12 +36,17 @@ const renderInitial = () => {
   return <Spinner isLoading={true} fullScreen={true}/>;
 };
 
+const onError = (error) => {
+  console.log('Error: ', error);
+};
+
 const run = () => {
   ReactDOM.render(
-    <Router RoutingContext={RouterResolver}
-      routes={routes}
+    <Router routes={routes}
       history={history}
-      renderInitial={renderInitial}/>,
+      render={props => (
+        <RouterResolver {...props} renderInitial={renderInitial} onError={onError}/>
+      )}/>,
     document.getElementById('app')
   );
 };

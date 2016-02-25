@@ -9,9 +9,12 @@ class PageExample4Modal extends React.Component {
       }, 2000);
     });
   };
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   static propTypes = {
-    history: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
     response: React.PropTypes.string.isRequired
   };
 
@@ -23,10 +26,10 @@ class PageExample4Modal extends React.Component {
     this.setState({
       isOpen: false
     }, () => {
-      if (this.props.history.goBack) {
-        this.props.history.goBack();
+      if (this.context.router.goBack) {
+        this.context.router.goBack();
       } else {
-        this.props.history.pushState(null, '/ex-4');
+        this.context.router.push('/ex-4');
       }
     });
   };
