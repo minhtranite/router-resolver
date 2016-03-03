@@ -9,7 +9,14 @@ const lookupResponseForComponent = (Component, componentsResponses) => {
 class RouterResolverContainer extends React.Component {
   static propTypes = {
     Component: React.PropTypes.func.isRequired,
-    routerProps: React.PropTypes.object.isRequired
+    routerProps: React.PropTypes.object.isRequired,
+    render: React.PropTypes.func
+  };
+
+  static defaultProps = {
+    render: (Component, routerProps) => {
+      return <Component {...routerProps}/>;
+    }
   };
 
   static contextTypes = {
@@ -17,13 +24,13 @@ class RouterResolverContainer extends React.Component {
   };
 
   render() {
-    const {Component, routerProps} = this.props;
+    const {Component, routerProps, render} = this.props;
     const {componentsResponses} = this.context.resolver;
     const response = lookupResponseForComponent(Component, componentsResponses);
     if (!!Component.resolve && response === undefined) {
       return null;
     }
-    return <Component {...routerProps} response={response}/>;
+    return render(Component, {...routerProps, response});
   }
 }
 
