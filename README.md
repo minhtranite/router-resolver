@@ -91,4 +91,4 @@ export default PageExample1;
 
 ## Demo
 
-View [demo](http://vn38minhtran.github.io/router-resolver) or example folder.
+View [demo](http://minhtranite.github.io/router-resolver) or example folder.
